@@ -14,5 +14,6 @@ namespace EDWB
         float_t getHumidity() const;
         float_t getSoundPressure() const;
         int16_t getAirQuality() const;
+        uint16_t getMotion() const;
     };
 }

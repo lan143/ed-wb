@@ -32,3 +32,8 @@ int16_t MSW::getAirQuality() const
 {
     return _client.inputRegisterRead(_address, 0x000B);
 }
+
+uint16_t MSW::getMotion() const
+{
+    return _client.inputRegisterRead(_address, 0x011B);
+}
