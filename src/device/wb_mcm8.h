@@ -9,5 +9,9 @@ namespace EDWB
     {
     public:
         MCM8(ModbusClient& client) : Device(client) {}
+
+        bool getInputState(uint8_t pin);
+
+        bool setInputMode(uint8_t pin, uint16_t mode);
     };
 }
