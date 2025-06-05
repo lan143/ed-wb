@@ -19,6 +19,8 @@ namespace EDWB
         MCM8* addMCM8(uint8_t address);
         MSW* addMSW(uint8_t address);
 
+        bool changeSpeed(uint32_t newSpeed);
+
     private:
         ModbusClient _client;
         std::list<Device*> _devices;

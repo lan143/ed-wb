@@ -26,3 +26,8 @@ MSW* WirenBoard::addMSW(uint8_t address)
 
     return obj;
 }
+
+bool WirenBoard::changeSpeed(uint32_t newSpeed)
+{
+    return _client.holdingRegisterWrite(0, 0x006E, newSpeed / 100);
+}
