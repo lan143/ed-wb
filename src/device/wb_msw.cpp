@@ -5,7 +5,7 @@ using namespace EDWB;
 float_t MSW::getTemperature() const
 {
     uint16_t val = _client.inputRegisterRead(_address, 0x0004);
-    if (val != 0x7FFF) {
+    if (val != 0x7FFF && val != 0xFFFF) {
         return (float_t)val * 0.01;
     }
 
@@ -15,7 +15,7 @@ float_t MSW::getTemperature() const
 float_t MSW::getHumidity() const
 {
     uint16_t val = _client.inputRegisterRead(_address, 0x0005);
-    if (val != 0x7FFF) {
+    if (val != 0x7FFF && val != 0xFFFF) {
         return (float_t)val * 0.01;
     }
 
