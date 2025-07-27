@@ -22,6 +22,7 @@ namespace EDWB
         MSW* addMSW(uint8_t address);
 
         bool changeSpeed(uint32_t newSpeed);
+        ModbusClient* getClient() { return &_client; }
 
     private:
         ModbusClient _client;
