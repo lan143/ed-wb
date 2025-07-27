@@ -6,6 +6,7 @@
 
 #include "device/device.h"
 #include "device/wb_mcm8.h"
+#include "device/wb_mr6c.h"
 #include "device/wb_msw.h"
 
 namespace EDWB
@@ -17,6 +18,7 @@ namespace EDWB
         void init(uint32_t timeout);
 
         MCM8* addMCM8(uint8_t address);
+        MR6C* addMR6C(uint8_t address);
         MSW* addMSW(uint8_t address);
 
         bool changeSpeed(uint32_t newSpeed);
