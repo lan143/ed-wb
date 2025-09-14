@@ -228,3 +228,9 @@ void LED::setRGBColor(uint32_t color)
         _client.holdingRegisterWrite(_address, 0x07DB + i, (color >> (24 - i * 8)) & 0xFF);
     }
 }
+
+
+void LED::setMode(LEDMode mode)
+{
+    _client.holdingRegisterWrite(_address, 0x0FA0, mode);
+}

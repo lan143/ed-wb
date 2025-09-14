@@ -36,6 +36,15 @@ MSW* WirenBoard::addMSW(uint8_t address)
     return obj;
 }
 
+LED* WirenBoard::addLED(uint8_t address)
+{
+    LED* obj = new LED(_client);
+    obj->init(address);
+    _devices.push_back(obj);
+
+    return obj;
+}
+
 bool WirenBoard::changeSpeed(uint32_t newSpeed)
 {
     return _client.holdingRegisterWrite(0, 0x006E, newSpeed / 100);

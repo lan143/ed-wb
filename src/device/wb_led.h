@@ -5,6 +5,21 @@
 
 namespace EDWB
 {
+    enum LEDMode : uint16_t
+    {
+        LED_MODE_WWWW = 0,
+        LED_MODE_2WWW = 1,
+        LED_MODE_CCTWW = 2,
+        LED_MODE_WW2W = 16,
+        LED_MODE_2W2W = 17,
+        LED_MODE_CCT2W = 18,
+        LED_MODE_WWCCT = 32,
+        LED_MODE_2WCCT = 33,
+        LED_MODE_CCTCCT = 34,
+        LED_MODE_RGBW = 256,
+        LED_MODE_4W = 512
+    };
+
     class LED : public Device
     {
     public:
@@ -54,5 +69,7 @@ namespace EDWB
 
         uint32_t getRGBColor() const;
         void setRGBColor(uint32_t color);
+
+        void setMode(LEDMode mode);
     };
 }
