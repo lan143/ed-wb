@@ -216,7 +216,7 @@ uint32_t LED::getRGBColor() const
     for (uint8_t i = 0; i < 3; i++) {
         uint16_t part = _client.holdingRegisterRead(_address, 0x07DB + i);
 
-        color |= (part << (24 - i * 8));
+        color |= (part << (16 - i * 8));
     }
 
     return color;
@@ -225,7 +225,7 @@ uint32_t LED::getRGBColor() const
 void LED::setRGBColor(uint32_t color)
 {
     for (uint8_t i = 0; i < 3; i++) {
-        _client.holdingRegisterWrite(_address, 0x07DB + i, (color >> (24 - i * 8)) & 0xFF);
+        _client.holdingRegisterWrite(_address, 0x07DB + i, (color >> (16 - i * 8)) & 0xFF);
     }
 }
 
