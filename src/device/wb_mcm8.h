@@ -15,6 +15,7 @@ namespace EDWB
         int32_t getLongPressCount(uint8_t pin);
         int32_t getDoublePressCount(uint8_t pin);
         int32_t getShortAndThenLongPressCount(uint8_t pin);
+        void setDebouncingTime(uint8_t pin, uint16_t timeMs);
 
         bool setInputMode(uint8_t pin, uint16_t mode);
     };

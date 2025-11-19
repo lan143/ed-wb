@@ -71,3 +71,18 @@ int32_t MCM8::getShortAndThenLongPressCount(uint8_t pin)
 
     return _client.inputRegisterRead(_address, 0x0200 + pin);
 }
+
+void MCM8::setDebouncingTime(uint8_t pin, uint16_t timeMs)
+{
+    pin--;
+
+    if (pin > 7) {
+        return;
+    }
+
+    if (timeMs > 100) {
+        timeMs = 100;
+    } 
+
+    _client.holdingRegisterWrite(_address, 0x0014 + pin, timeMs);
+}
