@@ -229,8 +229,17 @@ void LED::setRGBColor(uint32_t color)
     }
 }
 
-
 void LED::setMode(LEDMode mode)
 {
     _client.holdingRegisterWrite(_address, 0x0FA0, mode);
+}
+
+bool LED::setInputMode(uint8_t channel, bool isButton) const
+{
+    channel--;
+    if (channel > 3) {
+        return false;
+    }
+
+    return _client.holdingRegisterWrite(_address, 0x01A0 + channel, isButton ? 0 : 1);
 }

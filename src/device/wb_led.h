@@ -71,5 +71,7 @@ namespace EDWB
         void setRGBColor(uint32_t color);
 
         void setMode(LEDMode mode);
+
+        bool setInputMode(uint8_t channel, bool isButton) const;
     };
 }
