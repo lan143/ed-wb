@@ -243,3 +243,13 @@ bool LED::setInputMode(uint8_t channel, bool isButton) const
 
     return _client.holdingRegisterWrite(_address, 0x01A0 + channel, isButton ? 0 : 1);
 }
+
+bool LED::setSafeMode(uint8_t channel, SafeMode mode) const
+{
+    channel--;
+    if (channel > 3) {
+        return false;
+    }
+
+    return _client.holdingRegisterWrite(_address, 0x0280 + channel, mode);
+}

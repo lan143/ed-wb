@@ -20,6 +20,13 @@ namespace EDWB
         LED_MODE_4W = 512
     };
 
+    enum SafeMode : uint16_t
+    {
+        SAFE_MODE_DONT_BLOCK_INPUT = 0,
+        SAFE_MODE_INPUT_BLOCK_IN = 1,
+        SAFE_MODE_DONT_BLOCK_IN = 2
+    };
+
     class LED : public Device
     {
     public:
@@ -73,5 +80,7 @@ namespace EDWB
         void setMode(LEDMode mode);
 
         bool setInputMode(uint8_t channel, bool isButton) const;
+
+        bool setSafeMode(uint8_t channel, SafeMode mode) const;
     };
 }
