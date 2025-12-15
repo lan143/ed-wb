@@ -27,6 +27,14 @@ namespace EDWB
         SAFE_MODE_DONT_BLOCK_IN = 2
     };
 
+    enum InputType : uint8_t
+    {
+        INPUT_TYPE_SHORT_CLICK = 0,
+        INPUT_TYPE_LONG_CLICK = 1,
+        INPUT_TYPE_DOUBLE_CLICK = 2,
+        INPUT_TYPE_SHORT_AND_LONG_CLICK = 3
+    };
+
     class LED : public Device
     {
     public:
@@ -82,5 +90,7 @@ namespace EDWB
         bool setInputMode(uint8_t channel, bool isButton) const;
 
         bool setSafeMode(uint8_t channel, SafeMode mode) const;
+
+        bool setInputActionRaw(uint8_t channel, InputType type, uint16_t value) const;
     };
 }

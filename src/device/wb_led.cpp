@@ -253,3 +253,32 @@ bool LED::setSafeMode(uint8_t channel, SafeMode mode) const
 
     return _client.holdingRegisterWrite(_address, 0x0280 + channel, mode);
 }
+
+
+bool LED::setInputActionRaw(uint8_t channel, InputType type, uint16_t value) const
+{
+    uint16_t baseReg;
+    switch (type) {
+        case INPUT_TYPE_SHORT_CLICK:
+            baseReg = 0x03E8;
+            break;
+        case INPUT_TYPE_LONG_CLICK:
+            baseReg = 0x03FC;
+            break;
+        case INPUT_TYPE_DOUBLE_CLICK:
+            baseReg = 0x0410;
+            break;
+        case INPUT_TYPE_SHORT_AND_LONG_CLICK:
+            baseReg = 0x0424;
+            break;
+        default:
+            return false;
+    }
+
+    channel--;
+    if (channel > 3) {
+        return false;
+    }
+
+    return _client.holdingRegisterWrite(_address, baseReg + channel, value);
+}
