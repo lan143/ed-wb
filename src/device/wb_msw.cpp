@@ -37,3 +37,18 @@ uint16_t MSW::getMotion() const
 {
     return _client.inputRegisterRead(_address, 0x011B);
 }
+
+int16_t MSW::getCO2Value() const
+{
+    uint16_t value = _client.inputRegisterRead(_address, 0x0008);
+    if (value == 0xFFFF) {
+        return -1;
+    }
+
+    return value;
+}
+
+bool MSW::enableCO2Sensor(bool enable) const
+{
+    return _client.coilWrite(_address, 0x0003, enable ? 1 : 0);
+}
