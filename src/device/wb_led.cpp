@@ -21,7 +21,7 @@ bool LED::enableChannel(uint8_t channel, bool enabled)
 {
     channel--;
     if (channel > 3) {
-        return;
+        return false;
     }
 
     return _client.coilWrite(_address, channel, enabled ? 1 : 0);
@@ -46,7 +46,7 @@ bool LED::enablePairChannels(uint8_t pair, bool enabled)
 {
     pair--;
     if (pair > 1) {
-        return;
+        return false;
     }
 
     return _client.coilWrite(_address, 0x0004 + pair, enabled ? 1 : 0);
@@ -175,7 +175,7 @@ bool LED::setPairChannelsBrightness(uint8_t pair, uint8_t brightness)
 {
     pair--;
     if (pair > 1) {
-        return;
+        return false;
     }
 
     if (brightness > 100) {
