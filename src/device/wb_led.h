@@ -40,52 +40,52 @@ namespace EDWB
     public:
         LED(ModbusClient& client) : Device(client) {}
 
-        bool isChannelEnabled(uint8_t channel) const;
-        void enableChannel(uint8_t channel, bool enabled);
+        Result<bool> isChannelEnabled(uint8_t channel) const;
+        bool enableChannel(uint8_t channel, bool enabled);
 
-        bool isPairChannelsEnabled(uint8_t pair) const;
-        void enablePairChannels(uint8_t pair, bool enabled);
+        Result<bool> isPairChannelsEnabled(uint8_t pair) const;
+        bool enablePairChannels(uint8_t pair, bool enabled);
 
-        bool isAllChannelsEnabled() const;
-        void enableAllChannels(bool enabled);
+        Result<bool> isAllChannelsEnabled() const;
+        bool enableAllChannels(bool enabled);
 
-        bool isEnabledCCT1() const;
-        void enableCCT1(bool enabled);
+        Result<bool> isEnabledCCT1() const;
+        bool enableCCT1(bool enabled);
 
-        bool isEnabledCCT2() const;
-        void enableCCT2(bool enabled);
+        Result<bool> isEnabledCCT2() const;
+        bool enableCCT2(bool enabled);
 
-        bool isEnabledRGB() const;
-        void enableRGB(bool enabled);
+        Result<bool> isEnabledRGB() const;
+        bool enableRGB(bool enabled);
 
-        bool isContinuousRGBChangeEnabled() const;
-        void enableContinuousRGBChange(bool enabled);
+        Result<bool> isContinuousRGBChangeEnabled() const;
+        bool enableContinuousRGBChange(bool enabled);
 
-        uint8_t getChannelBrightness(uint8_t channel) const;
-        void setChannelBrightness(uint8_t channel, uint8_t brightness);
+        Result<uint8_t> getChannelBrightness(uint8_t channel) const;
+        bool setChannelBrightness(uint8_t channel, uint8_t brightness);
 
-        uint8_t getPairChannelsBrightness(uint8_t pair) const;
-        void setPairChannelsBrightness(uint8_t pair, uint8_t brightness);
+        Result<uint8_t> getPairChannelsBrightness(uint8_t pair) const;
+        bool setPairChannelsBrightness(uint8_t pair, uint8_t brightness);
 
-        uint8_t getAllChannelsBrightness() const;
-        void setAllChannelsBrightness(uint8_t brightness);
+        Result<uint8_t> getAllChannelsBrightness() const;
+        bool setAllChannelsBrightness(uint8_t brightness);
 
-        uint8_t getTemperatureCCT1() const;
-        void setTemperatureCCT1(uint8_t temperature);
+        Result<uint8_t> getTemperatureCCT1() const;
+        bool setTemperatureCCT1(uint8_t temperature);
 
-        uint8_t getBrightnessCCT1() const;
-        void setBrightnessCCT1(uint8_t brightness);
+        Result<uint8_t> getBrightnessCCT1() const;
+        bool setBrightnessCCT1(uint8_t brightness);
 
-        uint8_t getTemperatureCCT2() const;
-        void setTemperatureCCT2(uint8_t temperature);
+        Result<uint8_t> getTemperatureCCT2() const;
+        bool setTemperatureCCT2(uint8_t temperature);
 
-        uint8_t getBrightnessCCT2() const;
-        void setBrightnessCCT2(uint8_t brightness);
+        Result<uint8_t> getBrightnessCCT2() const;
+        bool setBrightnessCCT2(uint8_t brightness);
 
-        uint32_t getRGBColor() const;
-        void setRGBColor(uint32_t color);
+        Result<uint32_t> getRGBColor() const;
+        bool setRGBColor(uint32_t color);
 
-        void setMode(LEDMode mode);
+        bool setMode(LEDMode mode);
 
         bool setInputMode(uint8_t channel, bool isButton) const;
 

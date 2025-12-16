@@ -52,3 +52,15 @@ bool MSW::enableCO2Sensor(bool enable) const
 {
     return _client.coilWrite(_address, 0x0003, enable ? 1 : 0);
 }
+
+float_t MSW::getLightLevel() const
+{
+    uint32_t part1 = _client.inputRegisterRead(_address, 0x0009);
+    uint32_t part2 = _client.inputRegisterRead(_address, 0x000A);
+    uint32_t result = (part1 << 16) | part2;
+    if (result == 0xFFFFFFFF) {
+        return -1.0f;
+    }
+
+    return (float_t)result * 0.01;
+}

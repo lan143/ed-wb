@@ -15,4 +15,12 @@ namespace EDWB
         ModbusClient& _client;
         uint8_t _address;
     };
+
+    template <typename T>
+    struct Result {
+        T _value;
+        bool _success;
+
+        Result(bool success, T value) : _success(success), _value(value) {}
+    };
 }

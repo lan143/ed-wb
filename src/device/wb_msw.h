@@ -18,5 +18,7 @@ namespace EDWB
 
         int16_t getCO2Value() const;
         bool enableCO2Sensor(bool enable) const;
+
+        float_t getLightLevel() const;
     };
 }
