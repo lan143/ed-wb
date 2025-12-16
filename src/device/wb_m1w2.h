@@ -10,6 +10,6 @@ namespace EDWB
     public:
         M1W2(ModbusClient& client) : Device(client) {}
 
-        float_t getTemperature(uint8_t channel) const;
+        Result<float_t> getTemperature(uint8_t channel) const;
     };
 }

@@ -2,17 +2,17 @@
 
 using namespace EDWB;
 
-float_t M1W2::getTemperature(uint8_t channel) const
+Result<float_t> M1W2::getTemperature(uint8_t channel) const
 {
     channel--;
     if (channel > 1) {
-        return -1000.0f;
+        return Result<float_t>(false, 0.0f);
     }
 
-    int32_t val = _client.inputRegisterRead(_address, 0x0007 + channel);
-    if (val == 0x7FFF) {
-        return -1000.0f;
+    auto val = _client.inputRegisterRead(_address, 0x0007 + channel);
+    if (val == -1) {
+        return Result<float_t>(false, 0.0f);
     }
 
-    return (float_t)val * 0.0625;
+    return Result<float_t>(true, (float_t)val * 0.0625f);
 }
