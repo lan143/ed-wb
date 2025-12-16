@@ -10,15 +10,15 @@ namespace EDWB
     public:
         MSW(ModbusClient& client) : Device(client) {}
 
-        float_t getTemperature() const;
-        float_t getHumidity() const;
-        float_t getSoundPressure() const;
-        int16_t getAirQuality() const;
-        uint16_t getMotion() const;
+        Result<float_t> getTemperature() const;
+        Result<float_t> getHumidity() const;
+        Result<float_t> getSoundPressure() const;
+        Result<uint16_t> getAirQuality() const;
+        Result<uint16_t> getMotion() const;
 
-        int16_t getCO2Value() const;
+        Result<uint16_t> getCO2Value() const;
         bool enableCO2Sensor(bool enable) const;
 
-        float_t getLightLevel() const;
+        Result<float_t> getLightLevel() const;
     };
 }

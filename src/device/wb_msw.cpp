@@ -2,50 +2,68 @@
 
 using namespace EDWB;
 
-float_t MSW::getTemperature() const
+Result<float_t> MSW::getTemperature() const
 {
-    uint16_t val = _client.inputRegisterRead(_address, 0x0004);
-    if (val != 0x7FFF && val != 0xFFFF) {
-        return (float_t)val * 0.01;
+    auto val = _client.inputRegisterRead(_address, 0x0004);
+    if (val == -1 ) {
+        return Result<float_t>(false, 0.0f);
     }
 
-    return -1000.0f;
+    return Result<float_t>(true, (float_t)val * 0.01);
 }
 
-float_t MSW::getHumidity() const
+Result<float_t> MSW::getHumidity() const
 {
-    uint16_t val = _client.inputRegisterRead(_address, 0x0005);
-    if (val != 0x7FFF && val != 0xFFFF) {
-        return (float_t)val * 0.01;
+    auto val = _client.inputRegisterRead(_address, 0x0005);
+    if (val == -1 ) {
+        return Result<float_t>(false, 0.0f);
     }
 
-    return -1.0f;
+    return Result<float_t>(true, (float_t)val * 0.01);
 }
 
-float_t MSW::getSoundPressure() const
+Result<float_t> MSW::getSoundPressure() const
 {
-    uint16_t val = _client.inputRegisterRead(_address, 0x0003);
-    return (float_t)val * 0.01;
-}
-
-int16_t MSW::getAirQuality() const
-{
-    return _client.inputRegisterRead(_address, 0x000B);
-}
-
-uint16_t MSW::getMotion() const
-{
-    return _client.inputRegisterRead(_address, 0x011B);
-}
-
-int16_t MSW::getCO2Value() const
-{
-    uint16_t value = _client.inputRegisterRead(_address, 0x0008);
-    if (value == 0xFFFF) {
-        return -1;
+    auto val = _client.inputRegisterRead(_address, 0x0003);
+    if (val == -1 ) {
+        return Result<float_t>(false, 0.0f);
     }
 
-    return value;
+    return Result<float_t>(true, (float_t)val * 0.01);
+}
+
+Result<uint16_t> MSW::getAirQuality() const
+{
+    auto val = _client.inputRegisterRead(_address, 0x000B);
+    if (val == -1 ) {
+        return Result<uint16_t>(false, 0);
+    }
+
+    return Result<uint16_t>(true, (uint16_t)val);
+}
+
+Result<uint16_t> MSW::getMotion() const
+{
+    auto val = _client.inputRegisterRead(_address, 0x011B);
+    if (val == -1 ) {
+        return Result<uint16_t>(false, 0);
+    }
+
+    return Result<uint16_t>(true, (uint16_t)val);
+}
+
+Result<uint16_t> MSW::getCO2Value() const
+{
+    auto val = _client.inputRegisterRead(_address, 0x0008);
+    if (val == -1 ) {
+        return Result<uint16_t>(false, 0);
+    }
+
+    if (val == 0xFFFF) {
+        return Result<uint16_t>(false, 0);
+    }
+
+    return Result<uint16_t>(true, (uint16_t)val);
 }
 
 bool MSW::enableCO2Sensor(bool enable) const
@@ -53,14 +71,27 @@ bool MSW::enableCO2Sensor(bool enable) const
     return _client.coilWrite(_address, 0x0003, enable ? 1 : 0);
 }
 
-float_t MSW::getLightLevel() const
+Result<float_t> MSW::getLightLevel() const
 {
-    uint32_t part1 = _client.inputRegisterRead(_address, 0x0009);
-    uint32_t part2 = _client.inputRegisterRead(_address, 0x000A);
-    uint32_t result = (part1 << 16) | part2;
-    if (result == 0xFFFFFFFF) {
-        return -1.0f;
+    auto part1 = _client.inputRegisterRead(_address, 0x0009);
+    if (part1 == -1) {
+        return Result<float_t>(false, 0.0f);
     }
 
-    return (float_t)result * 0.01;
+    if (part1 == 0xffff) {
+        return Result<float_t>(false, 0.0f);
+    }
+
+    auto part2 = _client.inputRegisterRead(_address, 0x000A);
+    if (part2 == -1) {
+        return Result<float_t>(false, 0.0f);
+    }
+
+    if (part2 == 0xffff) {
+        return Result<float_t>(false, 0.0f);
+    }
+
+    uint32_t result = (part1 << 16) | part2;
+
+    return Result<float_t>(false, (float_t)result * 0.01);
 }
