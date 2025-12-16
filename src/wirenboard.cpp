@@ -45,6 +45,15 @@ LED* WirenBoard::addLED(uint8_t address)
     return obj;
 }
 
+M1W2* WirenBoard::addM1W2(uint8_t address)
+{
+    M1W2* obj = new M1W2(_client);
+    obj->init(address);
+    _devices.push_back(obj);
+
+    return obj;
+}
+
 bool WirenBoard::changeSpeed(uint32_t newSpeed)
 {
     return _client.holdingRegisterWrite(0, 0x006E, newSpeed / 100);
