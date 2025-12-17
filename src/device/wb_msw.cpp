@@ -78,20 +78,15 @@ Result<float_t> MSW::getLightLevel() const
         return Result<float_t>(false, 0.0f);
     }
 
-    if (part1 == 0xffff) {
-        return Result<float_t>(false, 0.0f);
-    }
-
     auto part2 = _client.inputRegisterRead(_address, 0x000A);
     if (part2 == -1) {
         return Result<float_t>(false, 0.0f);
     }
 
-    if (part2 == 0xffff) {
+    uint32_t result = (part1 << 16) | part2;
+    if (result == 0xffffffff) {
         return Result<float_t>(false, 0.0f);
     }
 
-    uint32_t result = (part1 << 16) | part2;
-
-    return Result<float_t>(false, (float_t)result * 0.01);
+    return Result<float_t>(true, (float_t)result * 0.01);
 }
