@@ -10,6 +10,7 @@
 #include "device/wb_msw.h"
 #include "device/wb_led.h"
 #include "device/wb_m1w2.h"
+#include "device/wb_ms.h"
 
 namespace EDWB
 {
@@ -24,6 +25,7 @@ namespace EDWB
         MSW* addMSW(uint8_t address);
         LED* addLED(uint8_t address);
         M1W2* addM1W2(uint8_t address);
+        MS* addMS(uint8_t address);
 
         bool changeSpeed(uint32_t newSpeed);
         ModbusClient* getClient() { return &_client; }
