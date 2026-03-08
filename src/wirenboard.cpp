@@ -63,6 +63,15 @@ MS* WirenBoard::addMS(uint8_t address)
     return obj;
 }
 
+MTD262MB* WirenBoard::addMTD262MB(uint8_t address)
+{
+    MTD262MB* obj = new MTD262MB(_client);
+    obj->init(address);
+    _devices.push_back(obj);
+
+    return obj;
+}
+
 bool WirenBoard::changeSpeed(uint32_t newSpeed)
 {
     return _client.holdingRegisterWrite(0, 0x006E, newSpeed / 100);
