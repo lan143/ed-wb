@@ -1,10 +1,11 @@
+#include <log/log.h>
 #include "wb_mr6c.h"
 
 using namespace EDWB;
 
 std::pair<bool, bool> MR6C::getInputChannelState(uint8_t channel) const
 {
-    if (channel < 0 || channel > 6) {
+    if (channel > 6) {
         return std::make_pair(false, false);
     }
 
@@ -13,7 +14,7 @@ std::pair<bool, bool> MR6C::getInputChannelState(uint8_t channel) const
         reg = 0x0007;
     }
 
-    auto val = _client.inputRegisterRead(_address, reg);
+    auto val = _client.discreteInputRead(_address, reg);
     if (val == -1) {
         return std::make_pair(false, false);
     }
@@ -23,7 +24,7 @@ std::pair<bool, bool> MR6C::getInputChannelState(uint8_t channel) const
 
 bool MR6C::setInputMode(uint8_t channel, MR6CInputMode mode)
 {
-    if (channel < 0 || channel > 6) {
+    if (channel > 6) {
         return false;
     }
 
@@ -56,7 +57,7 @@ bool MR6C::setRelayChannelState(uint8_t channel, bool enabled)
 
 std::pair<uint16_t, bool> MR6C::getInputCounter(uint8_t channel)
 {
-    if (channel < 0 || channel > 6) {
+    if (channel > 6) {
         return std::make_pair(0, false);
     }
 
