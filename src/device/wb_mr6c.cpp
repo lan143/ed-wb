@@ -13,12 +13,34 @@ std::pair<bool, bool> MR6C::getInputChannelState(uint8_t channel) const
         reg = 0x0007;
     }
 
-    auto val = _client.inputRegisterRead(_address, channel);
+    auto val = _client.inputRegisterRead(_address, reg);
     if (val == -1) {
         return std::make_pair(false, false);
     }
 
     return std::make_pair(val != 0, true);
+}
+
+bool MR6C::setInputMode(uint8_t channel, MR6CInputMode mode)
+{
+    if (channel < 0 || channel > 6) {
+        return false;
+    }
+
+    if (mode > MR6C_INPUT_MODE_MAPPING_BUTTON) {
+        return false;
+    }
+
+    if (channel == 0 && (mode == MR6C_INPUT_MODE_BUTTON_WITHOUT_LOCKING || mode == MR6C_INPUT_MODE_SWITCH)) {
+        return false;
+    }
+
+    uint16_t reg = 0x0009 + channel - 1;
+    if (channel == 0) {
+        reg = 0x0010;
+    }
+
+    return _client.holdingRegisterWrite(_address, reg, mode);
 }
 
 bool MR6C::setRelayChannelState(uint8_t channel, bool enabled)
