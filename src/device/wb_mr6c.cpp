@@ -2,15 +2,18 @@
 
 using namespace EDWB;
 
-std::pair<bool, bool> MR6C::getRelayChannelState(uint8_t channel) const
+std::pair<bool, bool> MR6C::getInputChannelState(uint8_t channel) const
 {
-    channel--;
-
-    if (channel > 5) {
+    if (channel < 0 || channel > 6) {
         return std::make_pair(false, false);
     }
 
-    auto val = _client.coilRead(_address, channel);
+    uint16_t reg = 0x0000 + channel - 1;
+    if (channel == 0) {
+        reg = 0x0007;
+    }
+
+    auto val = _client.inputRegisterRead(_address, channel);
     if (val == -1) {
         return std::make_pair(false, false);
     }
