@@ -13,7 +13,6 @@ namespace EDWB
         std::pair<bool, bool> getRelayChannelState(uint8_t channel) const;
         bool setRelayChannelState(uint8_t channel, bool enabled);
 
-        std::pair<uint16_t, bool> getDigitalInput0Counter();
         std::pair<uint16_t, bool> getInputCounter(uint8_t channel);
     };
 }

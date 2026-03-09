@@ -29,23 +29,18 @@ bool MR6C::setRelayChannelState(uint8_t channel, bool enabled)
     return _client.coilWrite(_address, channel, enabled ? 1 : 0) > 0;
 }
 
-std::pair<uint16_t, bool> MR6C::getDigitalInput0Counter()
-{
-    auto val = _client.inputRegisterRead(_address, 0x0027);
-    if (val == -1) {
-        return std::make_pair(0, false);
-    }
-
-    return std::make_pair(val, true);
-}
-
 std::pair<uint16_t, bool> MR6C::getInputCounter(uint8_t channel)
 {
-    if (channel < 1 || channel > 6) {
+    if (channel < 0 || channel > 6) {
         return std::make_pair(0, false);
     }
 
-    auto val = _client.inputRegisterRead(_address, 0x0020 + channel - 1);
+    uint16_t reg = 0x0020 + channel - 1;
+    if (channel == 0) {
+        reg = 0x0027;
+    }
+
+    auto val = _client.inputRegisterRead(_address, reg);
     if (val == -1) {
         return std::make_pair(0, false);
     }
