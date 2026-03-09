@@ -19,6 +19,8 @@ namespace EDWB
     {
     public:
         WirenBoard(Stream& serial) : _client(serial) { }
+        WirenBoard(Stream& serial, uint8_t rtsPin) : _client(serial, rtsPin) { }
+
         void init(uint32_t timeout);
 
         MCM8* addMCM8(uint8_t address);
