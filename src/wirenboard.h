@@ -5,14 +5,15 @@
 #include <list>
 
 #include "device/device.h"
-#include "device/wb_mcm8.h"
-#include "device/wb_mr6c.h"
-#include "device/wb_msw.h"
-#include "device/wb_led.h"
-#include "device/wb_m1w2.h"
-#include "device/wb_ms.h"
 #include "device/mtd262mb.h"
 #include "device/qdy30a.h"
+#include "device/wb_led.h"
+#include "device/wb_m1w2.h"
+#include "device/wb_mai6.h"
+#include "device/wb_mcm8.h"
+#include "device/wb_mr6c.h"
+#include "device/wb_ms.h"
+#include "device/wb_msw.h"
 
 namespace EDWB
 {
@@ -32,6 +33,7 @@ namespace EDWB
         MS* addMS(uint8_t address);
         MTD262MB* addMTD262MB(uint8_t address);
         QDY30A* addQDY30A(uint8_t address);
+        MAI6* addMAI6(uint8_t address);
 
         bool changeSpeed(uint32_t newSpeed);
         ModbusClient* getClient() { return &_client; }
