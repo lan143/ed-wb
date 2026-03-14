@@ -54,6 +54,21 @@ bool MAI6::setSensorTypeN(uint8_t channel, uint16_t type)
     return _client.holdingRegisterWrite(_address, reg, type);
 }
 
+std::pair<uint16_t, bool> MAI6::getMinCalculatedValueP(uint8_t channel)
+{
+    if (!validateChannel(channel)) {
+        return std::make_pair(0, false);
+    }
+
+    auto reg = 0x1000 * channel + 0x408;
+    auto val = _client.holdingRegisterRead(_address, reg);
+    if (val == -1) {
+        return std::make_pair(0, false);
+    }
+
+    return std::make_pair(val, true);
+}
+
 bool MAI6::setMinCalculatedValueP(uint8_t channel, uint16_t value)
 {
     if (!validateChannel(channel)) {
@@ -63,6 +78,21 @@ bool MAI6::setMinCalculatedValueP(uint8_t channel, uint16_t value)
     auto reg = 0x1000 * channel + 0x408;
 
     return _client.holdingRegisterWrite(_address, reg, value);
+}
+
+std::pair<uint16_t, bool> MAI6::getMinCalculatedValueN(uint8_t channel)
+{
+    if (!validateChannel(channel)) {
+        return std::make_pair(0, false);
+    }
+
+    auto reg = 0x1000 * channel + 0x409;
+    auto val = _client.holdingRegisterRead(_address, reg);
+    if (val == -1) {
+        return std::make_pair(0, false);
+    }
+
+    return std::make_pair(val, true);
 }
 
 bool MAI6::setMinCalculatedValueN(uint8_t channel, uint16_t value)
@@ -76,6 +106,21 @@ bool MAI6::setMinCalculatedValueN(uint8_t channel, uint16_t value)
     return _client.holdingRegisterWrite(_address, reg, value);
 }
 
+std::pair<uint16_t, bool> MAI6::getMaxCalculatedValueP(uint8_t channel)
+{
+    if (!validateChannel(channel)) {
+        return std::make_pair(0, false);
+    }
+
+    auto reg = 0x1000 * channel + 0x40A;
+    auto val = _client.holdingRegisterRead(_address, reg);
+    if (val == -1) {
+        return std::make_pair(0, false);
+    }
+
+    return std::make_pair(val, true);
+}
+
 bool MAI6::setMaxCalculatedValueP(uint8_t channel, uint16_t value)
 {
     if (!validateChannel(channel)) {
@@ -85,6 +130,21 @@ bool MAI6::setMaxCalculatedValueP(uint8_t channel, uint16_t value)
     auto reg = 0x1000 * channel + 0x40A;
 
     return _client.holdingRegisterWrite(_address, reg, value);
+}
+
+std::pair<uint16_t, bool> MAI6::getMaxCalculatedValueN(uint8_t channel)
+{
+    if (!validateChannel(channel)) {
+        return std::make_pair(0, false);
+    }
+
+    auto reg = 0x1000 * channel + 0x40B;
+    auto val = _client.holdingRegisterRead(_address, reg);
+    if (val == -1) {
+        return std::make_pair(0, false);
+    }
+
+    return std::make_pair(val, true);
 }
 
 bool MAI6::setMaxCalculatedValueN(uint8_t channel, uint16_t value)

@@ -16,10 +16,16 @@ namespace EDWB
         std::pair<uint16_t, bool> getSensorTypeN(uint8_t channel);
         bool setSensorTypeN(uint8_t channel, uint16_t type);
 
+        std::pair<uint16_t, bool> getMinCalculatedValueP(uint8_t channel);
         bool setMinCalculatedValueP(uint8_t channel, uint16_t value);
+
+        std::pair<uint16_t, bool> getMinCalculatedValueN(uint8_t channel);
         bool setMinCalculatedValueN(uint8_t channel, uint16_t value);
 
+        std::pair<uint16_t, bool> getMaxCalculatedValueP(uint8_t channel);
         bool setMaxCalculatedValueP(uint8_t channel, uint16_t value);
+
+        std::pair<uint16_t, bool> getMaxCalculatedValueN(uint8_t channel);
         bool setMaxCalculatedValueN(uint8_t channel, uint16_t value);
 
         std::pair<uint32_t, bool> getMeasurementP(uint8_t channel);
