@@ -54,6 +54,50 @@ bool MAI6::setSensorTypeN(uint8_t channel, uint16_t type)
     return _client.holdingRegisterWrite(_address, reg, type);
 }
 
+bool MAI6::setMinCalculatedValueP(uint8_t channel, uint16_t value)
+{
+    if (!validateChannel(channel)) {
+        return false;
+    }
+
+    auto reg = 0x1000 * channel + 0x408;
+
+    return _client.holdingRegisterWrite(_address, reg, value);
+}
+
+bool MAI6::setMinCalculatedValueN(uint8_t channel, uint16_t value)
+{
+    if (!validateChannel(channel)) {
+        return false;
+    }
+
+    auto reg = 0x1000 * channel + 0x409;
+
+    return _client.holdingRegisterWrite(_address, reg, value);
+}
+
+bool MAI6::setMaxCalculatedValueP(uint8_t channel, uint16_t value)
+{
+    if (!validateChannel(channel)) {
+        return false;
+    }
+
+    auto reg = 0x1000 * channel + 0x40A;
+
+    return _client.holdingRegisterWrite(_address, reg, value);
+}
+
+bool MAI6::setMaxCalculatedValueN(uint8_t channel, uint16_t value)
+{
+    if (!validateChannel(channel)) {
+        return false;
+    }
+
+    auto reg = 0x1000 * channel + 0x40B;
+
+    return _client.holdingRegisterWrite(_address, reg, value);
+}
+
 std::pair<uint32_t, bool> MAI6::getMeasurementP(uint8_t channel)
 {
     if (!validateChannel(channel)) {
