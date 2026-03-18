@@ -23,6 +23,7 @@ namespace EDWB
 
         std::pair<bool, bool> getInputChannelState(uint8_t channel) const;
         bool setInputMode(uint8_t channel, MR6CInputMode mode);
+        std::pair<bool, bool> getRelayChannelState(uint8_t channel);
         bool setRelayChannelState(uint8_t channel, bool enabled);
 
         std::pair<uint16_t, bool> getInputCounter(uint8_t channel);

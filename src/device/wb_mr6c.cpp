@@ -44,6 +44,21 @@ bool MR6C::setInputMode(uint8_t channel, MR6CInputMode mode)
     return _client.holdingRegisterWrite(_address, reg, mode);
 }
 
+std::pair<bool, bool> MR6C::getRelayChannelState(uint8_t channel)
+{
+    if (channel > 6) {
+        return std::make_pair(false, false);
+    }
+
+    uint16_t reg = 0x0060 + channel - 1;
+    auto val = _client.discreteInputRead(_address, reg);
+    if (val == -1) {
+        return std::make_pair(false, false);
+    }
+
+    return std::make_pair(val == 1, true);
+}
+
 bool MR6C::setRelayChannelState(uint8_t channel, bool enabled)
 {
     channel--;
