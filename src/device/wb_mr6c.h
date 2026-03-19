@@ -1,7 +1,7 @@
 #pragma once
 
 #include <iarduino_Modbus.h>
-#include "device.h"
+#include "wb_device.h"
 
 namespace EDWB
 {
@@ -16,10 +16,10 @@ namespace EDWB
         MR6C_INPUT_MODE_MAPPING_BUTTON
     };
 
-    class MR6C : public Device
+    class MR6C : public WBDevice
     {
     public:
-        MR6C(ModbusClient& client) : Device(client) {}
+        MR6C(ModbusClient& client) : WBDevice(client) {}
 
         std::pair<bool, bool> getInputChannelState(uint8_t channel) const;
         bool setInputMode(uint8_t channel, MR6CInputMode mode);
