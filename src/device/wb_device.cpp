@@ -13,6 +13,7 @@ void WBDevice::init(uint8_t address)
         auto res = parseVersion(version.first);
         if (res.second) {
             _fwVersion = res.first;
+            _inited = true;
         } else {
             LOGE("init", "failed to parse firmware version");
         }

@@ -47,6 +47,7 @@ namespace EDWB
         std::pair<std::string, WBDeviceError> getFWVersion();
 
     protected:
+        bool _inited = false;
         Version _fwVersion;
     };
 }
