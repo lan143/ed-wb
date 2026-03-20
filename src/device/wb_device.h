@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Arduino.h>
+#include <version/version.h>
 
 #include "device.h"
 
@@ -46,6 +47,6 @@ namespace EDWB
         std::pair<std::string, WBDeviceError> getFWVersion();
 
     protected:
-        std::string _fwVersion;
+        Version _fwVersion;
     };
 }
