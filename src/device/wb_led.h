@@ -1,7 +1,7 @@
 #pragma once
 
 #include <iarduino_Modbus.h>
-#include "device.h"
+#include "wb_device.h"
 
 namespace EDWB
 {
@@ -35,10 +35,18 @@ namespace EDWB
         INPUT_TYPE_SHORT_AND_LONG_CLICK = 3
     };
 
-    class LED : public Device
+    enum RemoteChangeAction : uint16_t
+    {
+        REMOTE_CHANGE_STOP = 0,
+        REMOTE_CHANGE_DECREASE = 1,
+        REMOTE_CHANGE_INCREASE = 2,
+        REMOTE_CHANGE_INCREASE_DECREASE = 3
+    };
+
+    class LED : public WBDevice
     {
     public:
-        LED(ModbusClient& client) : Device(client) {}
+        LED(ModbusClient& client) : WBDevice(client) {}
 
         Result<bool> isChannelEnabled(uint8_t channel) const;
         bool enableChannel(uint8_t channel, bool enabled);
@@ -55,11 +63,22 @@ namespace EDWB
         Result<bool> isEnabledCCT2() const;
         bool enableCCT2(bool enabled);
 
+        Result<bool> isEnabledCCT1CCT2() const;
+        bool enableCCT1CCT2(bool enabled);
+
         Result<bool> isEnabledRGB() const;
         bool enableRGB(bool enabled);
 
         Result<bool> isContinuousRGBChangeEnabled() const;
         bool enableContinuousRGBChange(bool enabled);
+
+        // Input states and press counters
+        Result<bool> getInputState(uint8_t input) const;
+        Result<uint16_t> getInputCounter(uint8_t input) const;
+        Result<uint16_t> getShortPressCount(uint8_t input) const;
+        Result<uint16_t> getLongPressCount(uint8_t input) const;
+        Result<uint16_t> getDoublePressCount(uint8_t input) const;
+        Result<uint16_t> getShortThenLongPressCount(uint8_t input) const;
 
         Result<uint8_t> getChannelBrightness(uint8_t channel) const;
         bool setChannelBrightness(uint8_t channel, uint8_t brightness);
@@ -82,9 +101,51 @@ namespace EDWB
         Result<uint8_t> getBrightnessCCT2() const;
         bool setBrightnessCCT2(uint8_t brightness);
 
+        Result<uint8_t> getTemperatureCCT1CCT2() const;
+        bool setTemperatureCCT1CCT2(uint8_t temperature);
+
+        Result<uint8_t> getBrightnessCCT1CCT2() const;
+        bool setBrightnessCCT1CCT2(uint8_t brightness);
+
         Result<uint32_t> getRGBColor() const;
         bool setRGBColor(uint32_t color);
 
+        // HSV components and RGB continuous change speed
+        Result<uint16_t> getHue() const;
+        bool setHue(uint16_t hue);
+
+        Result<uint8_t> getSaturation() const;
+        bool setSaturation(uint8_t saturation);
+
+        Result<uint8_t> getValue() const;
+        bool setValue(uint8_t value);
+
+        Result<uint16_t> getRGBChangeSpeed() const;
+        bool setRGBChangeSpeed(uint16_t periodMs);
+
+        // Duplicate control registers with auto-enable, FW 3.8.0
+        bool setChannelBrightnessAutoOn(uint8_t channel, uint8_t brightness);
+        bool setPairChannelsBrightnessAutoOn(uint8_t pair, uint8_t brightness);
+        bool setAllChannelsBrightnessAutoOn(uint8_t brightness);
+        bool setTemperatureCCT1AutoOn(uint8_t temperature);
+        bool setBrightnessCCT1AutoOn(uint8_t brightness);
+        bool setTemperatureCCT2AutoOn(uint8_t temperature);
+        bool setBrightnessCCT2AutoOn(uint8_t brightness);
+        bool setRGBColorAutoOn(uint32_t color);
+        bool setHueAutoOn(uint16_t hue);
+        bool setSaturationAutoOn(uint8_t saturation);
+        bool setValueAutoOn(uint8_t value);
+        bool setRGBChangeSpeedAutoOn(uint16_t periodMs);
+        bool setTemperatureCCT1CCT2AutoOn(uint8_t temperature);
+        bool setBrightnessCCT1CCT2AutoOn(uint8_t brightness);
+
+        // Remote smooth change, FW 3.8.0
+        Result<RemoteChangeAction> getRemoteChangeAction(uint8_t param) const;
+        bool setRemoteChangeAction(uint8_t param, RemoteChangeAction action);
+        Result<uint16_t> getRemoteChangePeriod(uint8_t param) const;
+        bool setRemoteChangePeriod(uint8_t param, uint16_t periodMs);
+
+        Result<LEDMode> getMode() const;
         bool setMode(LEDMode mode);
 
         bool setInputMode(uint8_t channel, bool isButton) const;
