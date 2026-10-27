@@ -4,6 +4,7 @@
 #include <iarduino_Modbus.h>
 #include <list>
 
+#include "device/anenji4200.h"
 #include "device/device.h"
 #include "device/mtd262mb.h"
 #include "device/qdy30a.h"
@@ -34,6 +35,7 @@ namespace EDWB
         MTD262MB* addMTD262MB(uint8_t address);
         QDY30A* addQDY30A(uint8_t address);
         MAI6* addMAI6(uint8_t address);
+        ANENJI4200* addANENJI4200(uint8_t address);
 
         bool changeSpeed(uint32_t newSpeed);
         ModbusClient* getClient() { return &_client; }
