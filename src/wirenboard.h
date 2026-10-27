@@ -11,6 +11,7 @@
 #include "device/wb_led.h"
 #include "device/wb_m1w2.h"
 #include "device/wb_mai6.h"
+#include "device/wb_map12e.h"
 #include "device/wb_mcm8.h"
 #include "device/wb_mr6c.h"
 #include "device/wb_ms.h"
@@ -26,6 +27,7 @@ namespace EDWB
 
         void init(uint32_t timeout);
 
+        MAP12E* addMAP12E(uint8_t address);
         MCM8* addMCM8(uint8_t address);
         MR6C* addMR6C(uint8_t address);
         MSW* addMSW(uint8_t address);

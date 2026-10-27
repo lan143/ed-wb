@@ -9,6 +9,15 @@ void WirenBoard::init(uint32_t timeout)
     _client.setTimeout(timeout);
 }
 
+MAP12E* WirenBoard::addMAP12E(uint8_t address)
+{
+    MAP12E* obj = new MAP12E(_client);
+    obj->init(address);
+    _devices.push_back(obj);
+
+    return obj;
+}
+
 MCM8* WirenBoard::addMCM8(uint8_t address)
 {
     MCM8* obj = new MCM8(_client);
