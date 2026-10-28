@@ -4,23 +4,56 @@
 
 using namespace EDWB;
 
+constexpr unsigned long FW_VERSION_RETRY_INTERVAL_MS = 30000;
+
 void WBDevice::init(uint8_t address)
 {
     Device::init(address);
+    _lastVersionAttempt = millis();
+    attemptLoadFWVersion();
+};
 
+void WBDevice::loop()
+{
+    if (_inited) {
+        return;
+    }
+
+    unsigned long now = millis();
+    if (now - _lastVersionAttempt < FW_VERSION_RETRY_INTERVAL_MS) {
+        return;
+    }
+
+    _lastVersionAttempt = now;
+    attemptLoadFWVersion(false);
+}
+
+bool WBDevice::attemptLoadFWVersion(bool logAsError)
+{
     auto version = getFWVersion();
     if (version.second == WBDeviceErrorNone) {
         auto res = parseVersion(version.first);
         if (res.second) {
             _fwVersion = res.first;
             _inited = true;
-        } else {
+            return true;
+        }
+
+        if (logAsError) {
             LOGE("init", "failed to parse firmware version");
+        } else {
+            LOGD("loop", "failed to parse firmware version");
         }
     } else {
-        LOGE("init", "failed to load firmware version");
+        if (logAsError) {
+            LOGE("init", "failed to load firmware version");
+        } else {
+            LOGD("loop", "failed to load firmware version");
+        }
     }
-};
+
+    return false;
+}
 
 std::pair<uint32_t, WBDeviceError> WBDevice::getSpeed()
 {

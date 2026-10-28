@@ -10,6 +10,7 @@ namespace EDWB
     public:
         Device(ModbusClient& client) : _client(client) {}
         void init(uint8_t address) { _address = address; };
+        virtual void loop() { };
 
     protected:
         ModbusClient& _client;

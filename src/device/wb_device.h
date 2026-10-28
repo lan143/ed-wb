@@ -30,6 +30,7 @@ namespace EDWB
         WBDevice(ModbusClient& client) : Device(client) {}
 
         void init(uint8_t address);
+        void loop() override;
 
         std::pair<uint32_t, WBDeviceError> getSpeed();
         WBDeviceError setSpeed(uint32_t speed);
@@ -49,5 +50,9 @@ namespace EDWB
     protected:
         bool _inited = false;
         Version _fwVersion;
+
+    private:
+        bool attemptLoadFWVersion(bool logAsError = true);
+        unsigned long _lastVersionAttempt = 0;
     };
 }

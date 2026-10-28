@@ -26,6 +26,7 @@ namespace EDWB
         WirenBoard(Stream& serial, uint8_t rtsPin) : _client(serial, rtsPin) { }
 
         void init(uint32_t timeout);
+        void loop();
 
         MAP12E* addMAP12E(uint8_t address);
         MCM8* addMCM8(uint8_t address);
