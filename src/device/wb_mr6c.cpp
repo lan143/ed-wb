@@ -24,10 +24,6 @@ std::pair<bool, bool> MR6C::getInputChannelState(uint8_t channel) const
 
 bool MR6C::setInputMode(uint8_t channel, MR6CInputMode mode)
 {
-    if (!_inited) {
-        return false;
-    }
-
     if (channel > 6) {
         return false;
     }
@@ -50,21 +46,24 @@ bool MR6C::setInputMode(uint8_t channel, MR6CInputMode mode)
 
 std::pair<bool, bool> MR6C::getRelayChannelState(uint8_t channel)
 {
-    if (!_inited) {
-        return std::make_pair(false, false);
-    }
-
-    if (channel > 6) {
+    if (channel == 0 || channel > 6) {
         return std::make_pair(false, false);
     }
 
     int8_t val;
-    if (_fwVersion < Version{1, 24, 0}) {
-        uint16_t reg = 0x0000 + channel - 1;
-        val = _client.coilRead(_address, reg);
+    if (_inited) {
+        if (_fwVersion < Version{1, 24, 0}) {
+            uint16_t reg = 0x0000 + channel - 1;
+            val = _client.coilRead(_address, reg);
+        } else {
+            uint16_t reg = 0x0060 + channel - 1;
+            val = _client.discreteInputRead(_address, reg);
+        }
     } else {
-        uint16_t reg = 0x0060 + channel - 1;
-        val = _client.discreteInputRead(_address, reg);
+        val = _client.discreteInputRead(_address, 0x0060 + channel - 1);
+        if (val == -1) {
+            val = _client.coilRead(_address, 0x0000 + channel - 1);
+        }
     }
 
     if (val == -1) {
@@ -76,11 +75,7 @@ std::pair<bool, bool> MR6C::getRelayChannelState(uint8_t channel)
 
 bool MR6C::setRelayChannelState(uint8_t channel, bool enabled)
 {
-    if (!_inited) {
-        return false;
-    }
-
-    if (channel > 6) {
+    if (channel == 0 || channel > 6) {
         return false;
     }
 
@@ -91,10 +86,6 @@ bool MR6C::setRelayChannelState(uint8_t channel, bool enabled)
 
 std::pair<uint16_t, bool> MR6C::getInputCounter(uint8_t channel)
 {
-    if (!_inited) {
-        return std::make_pair(0, false);
-    }
-
     if (channel > 6) {
         return std::make_pair(0, false);
     }
