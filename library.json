@@ -10,7 +10,7 @@
     "repository":
     {
       "type": "git",
-      "url": "https://github.com/lan143/ed-ha.git"
+      "url": "https://github.com/lan143/ed-wb.git"
     },
     "version": "0.1.0",
     "frameworks": "arduino",
@@ -22,6 +22,10 @@
       {
         "name": "iarduino_Modbus",
         "version": "https://github.com/tremaru/iarduino_Modbus"
+      },
+      {
+        "name": "ed-utils",
+        "version": "https://github.com/lan143/ed-utils.git"
       }
     ]
   }
