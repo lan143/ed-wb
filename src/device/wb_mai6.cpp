@@ -164,7 +164,7 @@ std::pair<uint32_t, bool> MAI6::getMeasurementP(uint8_t channel)
         return std::make_pair(0, false);
     }
 
-    uint32_t result;
+    uint32_t result = 0;
     auto reg = 0x1000 * channel + 0x500;
 
     for (uint8_t i = 0; i < 2; i++) {
@@ -176,6 +176,11 @@ std::pair<uint32_t, bool> MAI6::getMeasurementP(uint8_t channel)
         result |= val << (16 - i * 16);
     }
 
+    // WB-MAI6 register table: 32-bit measurement registers report error as 0x7FFFFFFF.
+    if (result == 0x7FFFFFFF) {
+        return std::make_pair(0, false);
+    }
+
     return std::make_pair(result, true);
 }
 
@@ -185,7 +190,7 @@ std::pair<uint32_t, bool> MAI6::getMeasurementN(uint8_t channel)
         return std::make_pair(0, false);
     }
 
-    uint32_t result;
+    uint32_t result = 0;
     auto reg = 0x1000 * channel + 0x502;
 
     for (uint8_t i = 0; i < 2; i++) {
@@ -195,6 +200,11 @@ std::pair<uint32_t, bool> MAI6::getMeasurementN(uint8_t channel)
         }
 
         result |= val << (16 - i * 16);
+    }
+
+    // WB-MAI6 register table: 32-bit measurement registers report error as 0x7FFFFFFF.
+    if (result == 0x7FFFFFFF) {
+        return std::make_pair(0, false);
     }
 
     return std::make_pair(result, true);
@@ -212,6 +222,12 @@ std::pair<uint16_t, bool> MAI6::getCalculatedValueP(uint8_t channel)
         return std::make_pair(0, false);
     }
 
+    // WB-MAI6 register table: 16-bit calculated value registers 0xX504/0xX505
+    // report error as 0x7FFF, independent of the configured sensor type.
+    if (val == 0x7FFF) {
+        return std::make_pair(0, false);
+    }
+
     return std::make_pair(val, true);
 }
 
@@ -224,6 +240,12 @@ std::pair<uint16_t, bool> MAI6::getCalculatedValueN(uint8_t channel)
     auto reg = 0x1000 * channel + 0x505;
     auto val = _client.inputRegisterRead(_address, reg);
     if (val == -1) {
+        return std::make_pair(0, false);
+    }
+
+    // WB-MAI6 register table: 16-bit calculated value registers 0xX504/0xX505
+    // report error as 0x7FFF, independent of the configured sensor type.
+    if (val == 0x7FFF) {
         return std::make_pair(0, false);
     }
 
